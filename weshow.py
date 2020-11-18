@@ -15,6 +15,7 @@ title_list = []
 title_link_list = []
 version_list = []
 theater_list = []
+theater_list_link = []
 #清單建立
 i = 1
 for i in range(4):
@@ -32,39 +33,17 @@ for i in range(1,len(title_list),1):
     
 select = input('Enter the no:')
 url = title_link_list[int(select)]
-browser = webdriver.Chrome('chromedriver.exe')
-browser.implicitly_wait(10)
-browser.get(url)
-locator = (By.CLASS_NAME,'versionFirst')
-WebDriverWait(browser,5).until(EC.presence_of_element_located(locator))
-soup = BeautifulSoup(browser.page_source,'html.parser')
-
-# version = soup.select('a.versionFirst')
-# for v in version:
-#     version_list.append(v.text)
-# for v in range(len(version_list)):
-#     print(str(v),'.',version_list[v])
-# select = input('Enter the no:')
-# move = browser.find_element_by_link_text(str(version_list[int(select)]))
-# locator = (By.CLASS_NAME,'icon-chevron-right')
-# WebDriverWait(browser,5).until(EC.presence_of_element_located(locator))
-
+r = request.get(url)
+soup = BeautifulSoup(r.text,'html.parser')
 theater = soup.select('p a')
 for i in theater:
     theater_list.append(i.text)
+    theater_list_link.append((i.get('href'))[1:])
 for i in range(len(theater_list)):
     print(str(i)+'.'+theater_list[i])
+
 select = input('Enter the no:')
-click = browser.find_element_by_link_text(str(theater_list[int(select)])).click()
-locator = (By.CLASS_NAME,'seat')
-WebDriverWait(browser,5).until(EC.presence_of_element_located(locator))
-#以下要進行修正
-'''
-date = soup.select('article.hidden.article.slide h4')
-time = soup.select('article.hidden.article.slide a')
+date = soup.select('article#'+str(theater_list_link[int(select)])+" div.movieDay" )
+
 for d in date:
     print(d.text)
-    for t in time:
-        print(t.text)
-browser.quit()
-'''
