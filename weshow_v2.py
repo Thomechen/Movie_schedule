@@ -1,3 +1,4 @@
+#%%
 import requests
 import urllib.request
 from selenium import webdriver
@@ -40,12 +41,19 @@ url = title_link_list[int(select)]
 r = request.get(url,headers = my_headers)
 soup = BeautifulSoup(r.text,'html.parser')
 theater = soup.select('p a')
+version = theater.find_parents('a')
+'''
 for i in theater:
     theater_list.append(i.text)
     theater_list_link.append((i.get('href'))[1:])
 for i in range(len(theater_list)):
     print(str(i)+'.'+theater_list[i])
+'''
+for v in version:
+    version_list.append(v.text)
+    print(v.text)
 
+'''
 select = input('Select Theater:')
 print('----------------------------------------------------------------------------------')
 select_theater = theater_list[int(select)]#戲院名稱
@@ -59,3 +67,5 @@ print(" ")
 for d in date:
     print(d.text.strip())
     print('----------------------------------------------------------------------------------')
+'''
+# %%
