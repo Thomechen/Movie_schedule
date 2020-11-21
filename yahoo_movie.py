@@ -76,12 +76,12 @@ while True:
         theater = soup.select('ul.area_time._c.jq_area_time')
         for t in theater:
             theater_name_list.append(t.get('data-theater_name'))
-            theater_id_list.append(t.get('id'))
+            theater_id_list.append(t.get('id'))#get theater id
         for a in range(len(theater_name_list)):
             print(str(a)+'.'+theater_name_list[a])
 
         select_c = input('Theater select:')
-        time = soup.select('ul#'+str(theater_id_list[int(select_c)])+' input.gabtn')
+        time = soup.select('ul#'+str(theater_id_list[int(select_c)])+' input.gabtn') #根據theater id取得時間
         for t in time:
             print(t.get('data-movie_time'))
         browser.quit()
