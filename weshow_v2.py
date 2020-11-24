@@ -1,9 +1,8 @@
 #%%
 import requests
 import urllib.request
+import pandas as pd
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
@@ -15,10 +14,7 @@ request = requests.session()
 #套件輸入
 title_list = []
 title_link_list = []
-version_list = []
-theater_list = []
-theater_list_link = []
-date_list = []
+theater_id_list = []
 #清單建立
 i = 1
 for i in range(4):
@@ -40,32 +36,11 @@ select_movie = title_list[int(select)]#電影名稱
 url = title_link_list[int(select)]
 r = request.get(url,headers = my_headers)
 soup = BeautifulSoup(r.text,'html.parser')
-theater = soup.select('p a')
-version = theater.find_parents('a')
-'''
-for i in theater:
-    theater_list.append(i.text)
-    theater_list_link.append((i.get('href'))[1:])
-for i in range(len(theater_list)):
-    print(str(i)+'.'+theater_list[i])
-'''
-for v in version:
-    version_list.append(v.text)
-    print(v.text)
+theater_id = soup.select('li.show ul p a')
+for t in theater_id:
+    th_id = t.get('href')
+    print(th_id[1:])
 
-'''
-select = input('Select Theater:')
-print('----------------------------------------------------------------------------------')
-select_theater = theater_list[int(select)]#戲院名稱
-theater_select = str(theater_list_link[int(select)])
-date = soup.select('article#'+str(theater_list_link[int(select)])+" div.movieDay" )
 
-print(' ')
-print(select_movie)
-print(select_theater)
-print(" ")
-for d in date:
-    print(d.text.strip())
-    print('----------------------------------------------------------------------------------')
-'''
+
 # %%
