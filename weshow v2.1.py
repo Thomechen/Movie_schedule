@@ -12,29 +12,39 @@ r = request.get(url,headers = my_headers)
 soup = BeautifulSoup(r.text,'html.parser')
 title = soup.select('ul.movieList a')
 #網頁解析
-for t in title:
-    movie_list.append(t.text) #電影名稱
-    movie_link_list.append(t.get('href')) #電影連結
-for t in range(len(movie_list)):
-    print(str(t)+'.'+movie_list[t])
-
-select = input('Movie select:') #電影選擇
-print(movie_list[int(select)])
-url = 'https://www.vscinemas.com.tw/vsTicketing/ticketing/ticket.aspx'+movie_link_list[int(select)]
-r = request.get(url,headers = my_headers)
-soup = BeautifulSoup(r.text,'html.parser')
-date = soup.select('div.movieDay')
-#網頁解析
-for t in date:
-    date_list.append(t.select('h4')[0].text) #上映日期
-for t in range(len(date_list)):
-    print(str(t)+'.'+date_list[t])
-select = input('Date select:') 
-print(date_list[int(select)])
-str = date_list[int(select)]
-for t in date:
-    if str == t.select('h4')[0].text:
-        for i in t.select('li a'):
-            print(i.text) #上映時間
+while True:
+    s = input('Start(Y/N):')
+    if str.upper(s) == 'Y':
+        for t in title:
+            movie_list.append(t.text) #電影名稱
+            movie_link_list.append(t.get('href')) #電影連結
+        for t in range(len(movie_list)):
+            print(str(t)+'.'+movie_list[t])
+        select = input('Movie select(Quit:n):') #電影選擇
+        if str.upper(select) == 'N':
+            break
+        else:
+            print(movie_list[int(select)])
+            url = 'https://www.vscinemas.com.tw/vsTicketing/ticketing/ticket.aspx'+movie_link_list[int(select)]
+            r = request.get(url,headers = my_headers)
+            soup = BeautifulSoup(r.text,'html.parser')
+            date = soup.select('div.movieDay')
+            #網頁解析
+            for t in date:
+                date_list.append(t.select('h4')[0].text) #上映日期
+            for t in range(len(date_list)):
+                print(str(t)+'.'+date_list[t])
+            select = input('Date select(Quit:n):')
+            if str.upper(select) == 'N':
+                break
+            else: 
+                print(date_list[int(select)])
+                str = date_list[int(select)]
+                for t in date:
+                    if str == t.select('h4')[0].text:
+                        for i in t.select('li a'):
+                            print(i.text) #上映時間
+    elif str.upper(s) == 'N':
+        break
 
 
