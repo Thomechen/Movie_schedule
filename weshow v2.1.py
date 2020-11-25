@@ -14,7 +14,9 @@ title = soup.select('ul.movieList a')
 #網頁解析
 while True:
     s = input('Start(Y/N):')
-    if str.upper(s) == 'Y':
+    if str.upper(s) == 'N':
+        break
+    elif str.upper(s) == 'Y':
         for t in title:
             movie_list.append(t.text) #電影名稱
             movie_link_list.append(t.get('href')) #電影連結
@@ -44,7 +46,6 @@ while True:
                     if str == t.select('h4')[0].text:
                         for i in t.select('li a'):
                             print(i.text) #上映時間
-    elif str.upper(s) == 'N':
-        break
+
 
 
